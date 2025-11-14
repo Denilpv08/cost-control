@@ -8,7 +8,7 @@ export function Home() {
   return (
     <Container>
       <h1>Bienvenido - {user.name}</h1>
-      <img src={user.avatar_url} />
+      <img src={user.picture} />
       <button onClick={signout}>Cerrar Sesion</button>
     </Container>
   );

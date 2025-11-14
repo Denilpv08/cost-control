@@ -9,10 +9,12 @@ import {
 } from "./index";
 import { createContext, useState } from "react";
 import { ThemeProvider, styled } from "styled-components";
+import { useLocation } from "react-router-dom";
 
 export const ThemeContext = createContext(null);
 
 function App() {
+  const { pathname } = useLocation();
   const [theme, setTheme] = useState("dark");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const themeStyle = theme === "light" ? Light : Dark;
@@ -21,18 +23,22 @@ function App() {
     <ThemeContext.Provider value={{ setTheme, theme }}>
       <ThemeProvider theme={themeStyle}>
         <AuthContextProvider>
-          <Container className={sidebarOpen ? "active" : ""}>
-            <div className="contentSidebar">
-              <Sidebar state={sidebarOpen} setState={setSidebarOpen} />
-            </div>
-            <div className="contentMenuambur">
-              <Menuambur />
-            </div>
+          {pathname != "/login" ? (
+            <Container className={sidebarOpen ? "active" : ""}>
+              <div className="contentSidebar">
+                <Sidebar state={sidebarOpen} setState={setSidebarOpen} />
+              </div>
+              <div className="contentMenuambur">
+                <Menuambur />
+              </div>
 
-            <Containerbody>
-              <MyRoutes />
-            </Containerbody>
-          </Container>
+              <Containerbody>
+                <MyRoutes />
+              </Containerbody>
+            </Container>
+          ) : (
+            <MyRoutes />
+          )}
         </AuthContextProvider>
       </ThemeProvider>
     </ThemeContext.Provider>
