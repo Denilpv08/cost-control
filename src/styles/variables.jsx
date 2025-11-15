@@ -82,6 +82,7 @@ export const v = {
   iconocheck: BsCalendarCheck,
   imagenfondo: fondo,
   colorSecundario: `#DAC1FF`,
+  colorselector: "#fff894",
 };
 
 export const btnReset = css`

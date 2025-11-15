@@ -6,21 +6,38 @@ import {
   Sidebar,
   Device,
   Menuambur,
+  useUsersStore,
 } from "./index";
 import { createContext, useState } from "react";
 import { ThemeProvider, styled } from "styled-components";
 import { useLocation } from "react-router-dom";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { useQuery } from "@tanstack/react-query";
 
 export const ThemeContext = createContext(null);
 
 function App() {
+  const { displayUsers, datausers } = useUsersStore();
   const { pathname } = useLocation();
-  const [theme, setTheme] = useState("dark");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const theme = datausers.theme === "0" ? "light" : "dark";
   const themeStyle = theme === "light" ? Light : Dark;
 
+  const { isLoading, error } = useQuery({
+    queryKey: ["Mostrar usuarios"],
+    queryFn: () => displayUsers(),
+  });
+
+  if (isLoading) {
+    return <h1>Cargando...</h1>;
+  }
+
+  if (error) {
+    return <h1>Error..</h1>;
+  }
+
   return (
-    <ThemeContext.Provider value={{ setTheme, theme }}>
+    <ThemeContext.Provider value={{ theme }}>
       <ThemeProvider theme={themeStyle}>
         <AuthContextProvider>
           {pathname != "/login" ? (
@@ -39,6 +56,8 @@ function App() {
           ) : (
             <MyRoutes />
           )}
+
+          <ReactQueryDevtools initialIsOpen={true} />
         </AuthContextProvider>
       </ThemeProvider>
     </ThemeContext.Provider>

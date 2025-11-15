@@ -84,11 +84,11 @@ export const SecondarylinksArray = [
 //temas
 export const TemasData = [
   {
-    icono: "🌞",
+    icon: "🌞",
     descripcion: "light",
   },
   {
-    icono: "🌚",
+    icon: "🌚",
     descripcion: "dark",
   },
 ];
